@@ -61,6 +61,25 @@ http {
             add_header X-Cache-Status $upstream_cache_status;
             proxy_pass https://<%= ENV['VIAFIER_S3_STATICBUCKET'] %>.<%= ENV['VIAFIER_S3_ENDPOINT'] %>/$1;
         }
+        location ~* ^/(media/.*) {
+            proxy_http_version 1.1;
+            proxy_set_header Host '<%= ENV['VIAFIER_S3_MEDIABUCKET'] %>.<%= ENV['VIAFIER_S3_ENDPOINT'] %>';
+            proxy_set_header Authorization '';
+            proxy_set_header Connection '';
+            proxy_hide_header x-amz-request-id;
+            proxy_hide_header Set-Cookie;
+            proxy_ignore_headers "Set-Cookie";
+            proxy_intercept_errors on;
+            proxy_cache S3_CACHE;
+            proxy_cache_valid 200 48h;
+            proxy_cache_valid 403 15m;
+            proxy_cache_use_stale error timeout updating http_500 http_502 http_503 http_504;
+            proxy_cache_lock on;
+            proxy_cache_bypass $http_cache_purge;
+            add_header Cache-Control max-age=31536000;
+            add_header X-Cache-Status $upstream_cache_status;
+            proxy_pass https://<%= ENV['VIAFIER_S3_MEDIABUCKET'] %>.<%= ENV['VIAFIER_S3_ENDPOINT'] %>/$1;
+        }
     }
 
 }
