@@ -12,8 +12,9 @@ RUN apk add --no-cache bash dumb-init nginx ruby && \
 COPY nginx.conf.erb /etc/nginx
 COPY docker-entrypoint.sh /
 
-ENV VIAFIER_STATIC_S3_URL ""
-ENV VIAFIER_UPSTREAM "127.0.0.1:8000"
+ENV VIAFIER_BACKEND "127.0.0.1:8000"
+ENV VIAFIER_S3_ENDPOINT ""
+ENV VIAFIER_S3_STATICBUCKET ""
 
 USER nobody
 

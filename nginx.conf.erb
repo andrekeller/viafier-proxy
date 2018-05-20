@@ -39,12 +39,12 @@ http {
             uwsgi_param X-Real-IP $remote_addr;
             uwsgi_param X-Forwarded-For $proxy_add_x_forwarded_for;
             uwsgi_param X-Forwareded-Proto $http_x_forwarded-proto;
-            uwsgi_pass <%= ENV['VIAFIER_UPSTREAM'] %>;
+            uwsgi_pass <%= ENV['VIAFIER_BACKEND'] %>;
         }
 
         location ~* ^/(static/.*) {
             proxy_http_version 1.1;
-            proxy_set_header Host '<%= ENV['VIAFIER_STATIC_S3_URL'] %>';
+            proxy_set_header Host '<%= ENV['VIAFIER_S3_STATICBUCKET'] %>.<%= ENV['VIAFIER_S3_ENDPOINT'] %>';
             proxy_set_header Authorization '';
             proxy_set_header Connection '';
             proxy_hide_header x-amz-request-id;
@@ -59,7 +59,7 @@ http {
             proxy_cache_bypass $http_cache_purge;
             add_header Cache-Control max-age=31536000;
             add_header X-Cache-Status $upstream_cache_status;
-            proxy_pass https://<%= ENV['VIAFIER_STATIC_S3_URL'] %>/$1;
+            proxy_pass https://<%= ENV['VIAFIER_S3_STATICBUCKET'] %>.<%= ENV['VIAFIER_S3_ENDPOINT'] %>/$1;
         }
     }
 
