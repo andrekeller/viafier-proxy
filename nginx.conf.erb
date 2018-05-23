@@ -1,7 +1,7 @@
 daemon off;
 worker_processes 1;
-error_log stderr warn;
 pid /run/nginx/nginx.pid;
+error_log stderr warn;
 
 events {
     worker_connections 1024;
@@ -26,6 +26,7 @@ http {
             '$status $body_bytes_sent "$http_referer" '
             '"$http_user_agent" "$http_x_forwarded_for"';
     access_log /dev/stdout main;
+    error_log stderr warn;
 
     server {
         listen 8080 default_server;
