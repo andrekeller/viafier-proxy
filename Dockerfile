@@ -5,8 +5,6 @@ RUN apk add --no-cache bash dumb-init nginx ruby && \
     rm /etc/nginx/nginx.conf && \
     chmod 0755 /var/lib/nginx && \
     chmod 0777 /var/tmp/nginx && \
-    ln -sf /dev/stdout /var/log/nginx/access.log && \
-    ln -sf /dev/stderr /var/log/nginx/error.log && \
     install -d -m 0777 /run/nginx
 
 COPY nginx.conf.erb /etc/nginx
@@ -18,6 +16,7 @@ ENV VIAFIER_S3_MEDIABUCKET ""
 ENV VIAFIER_S3_STATICBUCKET ""
 
 USER nobody
+VOLUME /var/lib/nginx-cache
 
 ENTRYPOINT ["dumb-init", "/docker-entrypoint.sh"]
 CMD ["nginx"]
