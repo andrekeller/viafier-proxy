@@ -28,6 +28,11 @@ http {
     access_log /var/log/nginx/access.log main;
 
     server {
+        listen 8081 default_server;
+        rewrite ^/(\d+)$ https://<% ENV['VIAFIER_INVENTORY_DOMAIN'] %>/<% ENV['VIAFIER_INVENTORY_LOCATION'] %>/$1;
+    }
+
+    server {
         listen 8080 default_server;
 
         location / {
