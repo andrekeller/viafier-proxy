@@ -29,7 +29,12 @@ http {
 
     server {
         listen 8081 default_server;
-        rewrite ^/(\d+)$ https://<% ENV['VIAFIER_INVENTORY_DOMAIN'] %>/<% ENV['VIAFIER_INVENTORY_LOCATION'] %>/$1;
+        location / {
+            return 404;
+        }
+        location ~* ^/(\d+)$ {
+            rewrite ^/(\d+)$ https://<%= ENV['VIAFIER_INVENTORY_DOMAIN'] %>/<%= ENV['VIAFIER_INVENTORY_LOCATION'] %>/$1;
+        }
     }
 
     server {
