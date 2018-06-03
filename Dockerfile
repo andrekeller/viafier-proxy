@@ -12,12 +12,12 @@ RUN apk add --no-cache bash dumb-init nginx ruby && \
 COPY nginx.conf.erb /etc/nginx
 COPY docker-entrypoint.sh /
 
-ENV VIAFIER_BACKEND "127.0.0.1:8000"
+ENV VIAFIER_UPSTREAM "127.0.0.1:8000"
 ENV VIAFIER_INVENTORY_DOMAIN "viafier.com"
 ENV VIAFIER_INVENTORY_LOCATION "inventory/configurations"
 ENV VIAFIER_S3_ENDPOINT ""
-ENV VIAFIER_S3_MEDIABUCKET ""
-ENV VIAFIER_S3_STATICBUCKET ""
+ENV VIAFIER_S3_MEDIA_BUCKET ""
+ENV VIAFIER_S3_STATIC_BUCKET ""
 
 USER nobody
 VOLUME /var/lib/nginx-cache

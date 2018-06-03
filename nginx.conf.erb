@@ -46,7 +46,7 @@ http {
             uwsgi_param X-Real-IP $remote_addr;
             uwsgi_param X-Forwarded-For $proxy_add_x_forwarded_for;
             uwsgi_param X-Forwareded-Proto $http_x_forwarded-proto;
-            uwsgi_pass <%= ENV['VIAFIER_BACKEND'] %>;
+            uwsgi_pass <%= ENV['VIAFIER_UPSTREAM'] %>;
         }
 
         location ~* ^/(static/.*) {
