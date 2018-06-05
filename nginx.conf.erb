@@ -58,12 +58,14 @@ http {
             proxy_hide_header Set-Cookie;
             proxy_ignore_headers "Set-Cookie";
             proxy_intercept_errors on;
+<% if ENV['VIAFIER_S3_CACHE_STATIC'] == 'yes' -%>
             proxy_cache S3_CACHE;
             proxy_cache_valid 200 48h;
             proxy_cache_valid 403 15m;
             proxy_cache_use_stale error timeout updating http_500 http_502 http_503 http_504;
             proxy_cache_lock on;
             proxy_cache_bypass $http_cache_purge;
+<% end -%>
             add_header Cache-Control max-age=31536000;
             add_header X-Cache-Status $upstream_cache_status;
             proxy_pass https://<%= ENV['VIAFIER_S3_STATICBUCKET'] %>.<%= ENV['VIAFIER_S3_ENDPOINT'] %>/$1;
@@ -77,12 +79,14 @@ http {
             proxy_hide_header Set-Cookie;
             proxy_ignore_headers "Set-Cookie";
             proxy_intercept_errors on;
+<% if ENV['VIAFIER_S3_CACHE_MEDIA'] == 'yes' -%>
             proxy_cache S3_CACHE;
             proxy_cache_valid 200 48h;
             proxy_cache_valid 403 15m;
             proxy_cache_use_stale error timeout updating http_500 http_502 http_503 http_504;
             proxy_cache_lock on;
             proxy_cache_bypass $http_cache_purge;
+<% end -%>
             add_header Cache-Control max-age=31536000;
             add_header X-Cache-Status $upstream_cache_status;
             proxy_pass https://<%= ENV['VIAFIER_S3_MEDIABUCKET'] %>.<%= ENV['VIAFIER_S3_ENDPOINT'] %>/$1;
