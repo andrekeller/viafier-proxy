@@ -47,8 +47,6 @@ http {
     server {
         listen 8080 default_server;
 
-        add_header X-Viafier-Frontend <%= ENV['HOSTNAME'] %> always;
-
         location / {
             include /etc/nginx/uwsgi_params;
             uwsgi_param Host $host;
@@ -56,6 +54,7 @@ http {
             uwsgi_param X-Forwarded-For $proxy_add_x_forwarded_for;
             uwsgi_param X-Forwareded-Proto $http_x_forwarded-proto;
             uwsgi_pass <%= ENV['VIAFIER_UPSTREAM'] %>;
+            add_header X-Viafier-Frontend <%= ENV['HOSTNAME'] %> always;
         }
 
         location ~* ^/(static/.*) {
@@ -77,6 +76,7 @@ http {
 <% end -%>
             add_header Cache-Control max-age=31536000;
             add_header X-Cache-Status $upstream_cache_status;
+            add_header X-Viafier-Frontend <%= ENV['HOSTNAME'] %> always;
             proxy_pass https://<%= ENV['VIAFIER_S3_STATICBUCKET'] %>.<%= ENV['VIAFIER_S3_ENDPOINT'] %>/$1;
         }
         location ~* ^/(media/.*) {
@@ -98,6 +98,7 @@ http {
 <% end -%>
             add_header Cache-Control max-age=31536000;
             add_header X-Cache-Status $upstream_cache_status;
+            add_header X-Viafier-Frontend <%= ENV['HOSTNAME'] %> always;
             proxy_pass https://<%= ENV['VIAFIER_S3_MEDIABUCKET'] %>.<%= ENV['VIAFIER_S3_ENDPOINT'] %>/$1;
         }
     }
