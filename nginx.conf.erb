@@ -33,6 +33,9 @@ http {
 
     server {
         listen 8081 default_server;
+
+        add_header X-Viafier-Frontend <%= ENV['HOSTNAME'] %> always;
+
         location / {
             return 404;
         }
@@ -43,6 +46,8 @@ http {
 
     server {
         listen 8080 default_server;
+
+        add_header X-Viafier-Frontend <%= ENV['HOSTNAME'] %> always;
 
         location / {
             include /etc/nginx/uwsgi_params;
