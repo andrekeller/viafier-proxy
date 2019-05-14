@@ -1,4 +1,4 @@
-FROM alpine:3.8
+FROM alpine:3.9
 
 RUN apk add --no-cache bash dumb-init nginx ruby && \
     rm -r /etc/nginx/conf.d /etc/nginx/modules && \
