@@ -4,6 +4,7 @@ RUN apk add --no-cache bash dumb-init nginx ruby && \
     rm -r /etc/nginx/conf.d /etc/nginx/modules && \
     rm /etc/nginx/nginx.conf && \
     chmod 0755 /var/lib/nginx && \
+    chmod 0777 /var/lib/nginx/tmp && \
     ln -sf /dev/stdout /var/log/nginx/access.log && \
     ln -sf /dev/stderr /var/log/nginx/error.log && \
     install -d -m 0777 /run/nginx
